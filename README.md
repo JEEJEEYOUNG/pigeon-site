@@ -7,6 +7,7 @@
 ```
 pigeon-site/
 ├─ server.js          ← 서버 (가입·로그인·글·쪽지)
+├─ supabase.sql       ← Supabase 표 만들기 명령어
 ├─ package.json       ← 실행 명령어 설정
 ├─ public/            ← 화면
 │  ├─ index.html
@@ -49,10 +50,28 @@ pigeon-site/
 
 ## 인터넷에 올리기 (진짜 주소 받기)
 
-내 컴퓨터를 끄면 사이트도 꺼져요. 항상 켜두려면 호스팅 서비스에 올려야 해요.
-예: **Render**(render.com) — GitHub에 이 폴더를 올린 뒤 Render에서 "Web Service"로 연결, Start Command는 `npm start`.
+데이터는 **Supabase**(무료 데이터베이스)에, 사이트는 **Render**(무료 호스팅)에 둬요.
+서버는 환경변수 `SUPABASE_URL`, `SUPABASE_SECRET_KEY`가 있으면 Supabase에 저장하고, 없으면 `data/db.json`에 저장해요.
 
-⚠️ 무료 호스팅은 재시작할 때 `data/db.json`이 지워질 수 있어요. 실제 운영 전에 영구 저장 디스크를 붙이거나 진짜 데이터베이스로 옮기는 작업이 필요해요. (이 단계는 Claude한테 같이 하자고 하면 돼요)
+### 1) Supabase 표 만들기
+- Supabase 프로젝트 → 왼쪽 **SQL Editor** → `supabase.sql` 내용을 붙여넣고 **Run**
+- **Project Settings → API Keys**에서 **Secret key**(`sb_secret_...`)를 복사
+- **Project URL**(`https://xxxx.supabase.co`)도 복사 (Connect 버튼이나 Settings에 있어요)
+- ⚠️ Secret key는 비밀번호와 같아요. GitHub나 코드에 절대 붙여넣지 마세요.
+
+### 2) Render에 올리기
+- render.com → GitHub로 로그인 → **New + → Web Service** → `pigeon-site` 저장소 선택
+- Language: **Node** / Build Command: 비워두기 / Start Command: `node server.js` / Instance Type: **Free**
+- **Environment Variables**에 3개 추가
+  - `SUPABASE_URL` = 복사한 Project URL
+  - `SUPABASE_SECRET_KEY` = 복사한 Secret key
+  - `NODE_ENV` = `production`
+- **Deploy** → 몇 분 뒤 `https://pigeon-site-xxxx.onrender.com` 주소가 생겨요
+
+무료 서버는 15분 동안 접속이 없으면 잠들어서, 다음 첫 접속은 1분 정도 걸릴 수 있어요. 데이터는 Supabase에 있어서 사라지지 않아요.
+
+### 3) 코드를 고친 뒤 다시 올리기
+GitHub 저장소에서 **Add file → Upload files**로 바뀐 파일을 다시 올리면 Render가 자동으로 새 버전을 배포해요.
 
 ## 운영 전 체크리스트
 
