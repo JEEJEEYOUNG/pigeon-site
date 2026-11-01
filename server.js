@@ -1,4 +1,4 @@
-// 사랑을 경희대를 타고 — 서버
+// 사랑을 비둘기를 타고 — 서버
 // 외부 라이브러리 없이 Node.js(18 이상)만으로 돌아가요.
 //
 // 데이터 저장 위치
@@ -384,7 +384,7 @@ http.createServer(async (req, res) => {
   }
 }).listen(PORT, () => {
   console.log("");
-  console.log("  🕊  사랑을 경희대를 타고 서버가 켜졌어요");
+  console.log("  🕊  사랑을 비둘기를 타고 서버가 켜졌어요");
   console.log("  →  http://localhost:" + PORT);
   console.log("     저장 위치: " + store.name);
   console.log("     (끄려면 Ctrl + C)");

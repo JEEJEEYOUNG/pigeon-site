@@ -1,4 +1,4 @@
-// 사랑을 경희대를 타고 — 화면 동작
+// 사랑을 비둘기를 타고 — 화면 동작
 (function () {
   const $ = (id) => document.getElementById(id);
   const pad = (n) => String(n).padStart(2, "0");
