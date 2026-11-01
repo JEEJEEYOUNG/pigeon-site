@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>사랑을 경희대를 타고</title>
+  <meta name="description" content="스쳐 간 그 사람에게, 비둘기가 대신 마음을 전해요.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="48" fill="var(--crimson-soft)"/>
+      <path d="M44 46 C30 28 18 30 14 34 C24 36 30 44 36 54 Z" fill="var(--line)" stroke="var(--ink)" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M26 58 C30 44 46 40 58 44 C64 34 76 34 80 42 C82 46 80 50 76 52 C76 64 64 74 48 74 C36 74 28 68 22 70 C22 66 24 62 26 58 Z" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M40 54 C46 48 58 50 62 58 C56 64 46 64 40 54 Z" fill="var(--line)" stroke="var(--ink)" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M80 42 L88 45 L79 47 Z" fill="var(--crimson)"/>
+      <circle cx="72" cy="41" r="1.9" fill="var(--ink)"/>
+      <g transform="rotate(-10 84 58)">
+        <rect x="74" y="52" width="18" height="12" rx="1.5" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.4"/>
+        <path d="M74 53 L83 59 L92 53" fill="none" stroke="var(--ink)" stroke-width="1.2"/>
+        <path d="M83 61 c-1.5-1.6-3.4-.2-2 1.4 l2 1.8 l2-1.8 c1.4-1.6-.5-3-2-1.4z" fill="var(--crimson)"/>
+      </g>
+    </svg>
+    <div>
+      <h1>사랑을 <em>경희대</em>를 타고</h1>
+      <p class="tag">스쳐 간 그 사람에게, 비둘기가 대신 마음을 전해요.</p>
+    </div>
+  </header>
+
+  <!-- 로그인 / 가입 -->
+  <section class="card signup" id="auth" hidden>
+    <div class="auth-tabs" role="tablist">
+      <button type="button" role="tab" id="at-register" aria-selected="true">처음이에요</button>
+      <button type="button" role="tab" id="at-login" aria-selected="false">로그인</button>
+    </div>
+
+    <form id="register" autocomplete="off">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <p class="lead">다른 사람에게는 <b>닉네임만</b> 보여요. 학과와 학번은 나만 볼 수 있어요.</p>
+        <div class="row2">
+          <label for="r-id">아이디<input type="text" id="r-id" maxlength="20" placeholder="영문·숫자 4~20자" autocomplete="username" required></label>
+          <label for="r-pw">비밀번호<input type="password" id="r-pw" minlength="8" placeholder="8자 이상" autocomplete="new-password" required></label>
+        </div>
+        <div class="row3">
+          <label for="r-nick">닉네임<input type="text" id="r-nick" maxlength="12" placeholder="예: 청운관비둘기" required></label>
+          <label for="r-major">학과 <span class="lock">비공개</span><input type="text" id="r-major" maxlength="30" placeholder="예: 우주과학과" required></label>
+          <label for="r-year">학번 <span class="lock">비공개</span><select id="r-year" required></select></label>
+        </div>
+        <label style="flex-direction:row;align-items:center;gap:8px;color:var(--ink)">
+          <input type="checkbox" id="r-agree" style="width:auto" required> <span><a href="/privacy.html" target="_blank" rel="noopener">개인정보 처리방침</a>에 동의해요</span>
+        </label>
+        <div class="foot">
+          <p class="rule">닉네임은 다른 사람과 겹칠 수 없어요.</p>
+          <button class="btn" type="submit">가입하기</button>
+        </div>
+      </div>
+    </form>
+
+    <form id="login" hidden>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="row2">
+          <label for="l-id">아이디<input type="text" id="l-id" autocomplete="username" required></label>
+          <label for="l-pw">비밀번호<input type="password" id="l-pw" autocomplete="current-password" required></label>
+        </div>
+        <div class="foot">
+          <span></span>
+          <button class="btn" type="submit">로그인</button>
+        </div>
+      </div>
+    </form>
+    <p class="status" id="auth-status" role="status"></p>
+  </section>
+
+  <div id="me-line" class="me-line" hidden></div>
+
+  <nav class="tabs" role="tablist">
+    <button type="button" role="tab" id="tab-feed" aria-selected="true">피드</button>
+    <button type="button" role="tab" id="tab-inbox" aria-selected="false">쪽지함 <span class="badge" id="inbox-badge" hidden></span></button>
+  </nav>
+
+  <div id="view-feed" style="display:flex;flex-direction:column;gap:22px">
+    <form class="card" id="compose" autocomplete="off" hidden>
+      <h2>비둘기 날리기</h2>
+      <div class="row">
+        <label for="f-date">날짜<input type="date" id="f-date" required></label>
+        <label for="f-place">장소<input type="text" id="f-place" list="places" maxlength="40" placeholder="예: 중앙도서관 앞" required></label>
+      </div>
+      <datalist id="places">
+        <option value="중앙도서관"><option value="학생회관"><option value="본관 앞"><option value="정문"><option value="셔틀버스 정류장"><option value="학식당">
+      </datalist>
+      <label for="f-text">어떤 분이었나요?
+        <textarea id="f-text" maxlength="300" placeholder="흰색 니트에 검은 백팩 메고 계셨던 분, 문 잡아주셔서 감사했어요. 마음에 들어요!" required></textarea>
+      </label>
+      <div class="foot">
+        <p class="rule">닉네임으로 올라가요. 상대의 이름·학번·연락처처럼 특정 개인을 알아볼 수 있는 정보는 적지 말아 주세요. <span class="count" id="count">0/300</span></p>
+        <button class="btn" type="submit" id="send">날려 보내기</button>
+      </div>
+      <p class="status" id="status" role="status"></p>
+    </form>
+
+    <section>
+      <div class="feedhead"><h2>도착한 마음들</h2><span id="total"></span></div>
+      <div class="list" id="feed">
+        <div class="empty"><b>비둘기를 기다리는 중</b>도착한 마음이 여기에 최신순으로 쌓여요.</div>
+      </div>
+    </section>
+  </div>
+
+  <section id="view-inbox" hidden>
+    <div class="feedhead"><h2>쪽지함</h2><span id="thread-total"></span></div>
+    <div class="list">
+      <p class="warn">쪽지는 보낸 사람과 받는 사람만 볼 수 있어요. 그래도 연락처는 충분히 대화해 본 뒤에 신중하게 나눠 주세요.</p>
+      <div id="threads"></div>
+    </div>
+  </section>
+
+  <footer class="site-foot"><a href="/privacy.html">개인정보 처리방침</a></footer>
+</div>
+<script src="/app.js"></script>
+</body>
+</html>

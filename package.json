@@ -1,0 +1,11 @@
+{
+  "name": "pigeon-khu",
+  "version": "0.1.0",
+  "description": "사랑을 경희대를 타고 — 캠퍼스 익명 마음 전달 사이트",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": { "node": ">=18" }
+}
