@@ -69,6 +69,12 @@ input, textarea, select {
   border-radius: 8px; padding: 9px 11px; width: 100%; min-width: 0;
 }
 textarea { resize: vertical; min-height: 92px; }
+/* iPhone Safari: 날짜 칸이 옆으로 삐져나오지 않게 */
+input[type="date"] {
+  -webkit-appearance: none; appearance: none; display: block;
+  max-width: 100%; min-height: 42px; line-height: 1.4; text-align: left;
+}
+input[type="date"]::-webkit-date-and-time-value { text-align: left; margin: 0; }
 input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--crimson); outline-offset: 2px; }
 .foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .rule { font-size: .8rem; color: var(--muted); margin: 0; flex: 1 1 220px; }

@@ -8,8 +8,6 @@ create table if not exists users (
   password_hash text not null,
   nickname      text not null,
   nick_lower    text not null unique,
-  major         text not null,   -- 비공개
-  year          text not null,   -- 비공개
   created_at    bigint not null
 );
 

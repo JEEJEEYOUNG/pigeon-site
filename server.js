@@ -89,7 +89,7 @@ function supabaseStore(baseUrl, key) {
 
   const toUser = (r) => r && {
     id: r.id, loginId: r.login_id, loginLower: r.login_lower, passwordHash: r.password_hash,
-    nickname: r.nickname, nickLower: r.nick_lower, major: r.major, year: r.year, createdAt: Number(r.created_at),
+    nickname: r.nickname, nickLower: r.nick_lower, createdAt: Number(r.created_at),
   };
   const toPost = (r) => ({ id: r.id, authorId: r.author_id, date: r.date, place: r.place, text: r.text, createdAt: Number(r.created_at) });
   const toMsg = (r) => ({ id: r.id, from: r.from_id, to: r.to_id, text: r.text, about: r.about || null, createdAt: Number(r.created_at) });
@@ -107,7 +107,7 @@ function supabaseStore(baseUrl, key) {
     async createUser(u) {
       await call("POST", "users", {
         id: u.id, login_id: u.loginId, login_lower: u.loginLower, password_hash: u.passwordHash,
-        nickname: u.nickname, nick_lower: u.nickLower, major: u.major, year: u.year, created_at: u.createdAt,
+        nickname: u.nickname, nick_lower: u.nickLower, created_at: u.createdAt,
       }, "return=minimal");
     },
     async listPosts(limit) { return (await call("GET", "posts?select=*&order=created_at.desc&limit=" + limit)).map(toPost); },
@@ -189,7 +189,6 @@ setInterval(() => { store.cleanSessions(Date.now()).catch(() => {}); }, 86400000
 // =====================================================================
 const NICK_RE = /^[가-힣A-Za-z0-9_]{2,12}$/;
 const LOGIN_RE = /^[A-Za-z0-9_]{4,20}$/;
-const YEAR_RE = /^\d{2}$/;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const ID_RE = /^[a-f0-9]{16}$/;
 const str = (v, max) => (typeof v === "string" ? v.trim().slice(0, max) : "");
@@ -223,7 +222,7 @@ function readBody(req) {
     req.on("error", () => resolve({}));
   });
 }
-const meView = (u) => ({ id: u.id, nickname: u.nickname, major: u.major, year: u.year });
+const meView = (u) => ({ id: u.id, nickname: u.nickname });
 async function nicknameMap(ids) {
   const uniq = [...new Set(ids)];
   const map = {};
@@ -248,19 +247,14 @@ async function handleApi(req, res, url) {
     const loginId = str(body.loginId, 20);
     const password = typeof body.password === "string" ? body.password : "";
     const nickname = str(body.nickname, 12);
-    const major = str(body.major, 30);
-    const year = str(body.year, 2);
     if (!LOGIN_RE.test(loginId)) return send(res, 400, { error: "아이디는 영문·숫자·_ 4~20자로 정해 주세요." });
     if (password.length < 8 || password.length > 100) return send(res, 400, { error: "비밀번호는 8자 이상이어야 해요." });
     if (!NICK_RE.test(nickname)) return send(res, 400, { error: "닉네임은 한글·영문·숫자 2~12자로 정해 주세요." });
-    if (!major) return send(res, 400, { error: "학과를 입력해 주세요." });
-    if (!YEAR_RE.test(year)) return send(res, 400, { error: "학번을 선택해 주세요." });
     const loginLower = loginId.toLowerCase(), nickLower = nickname.toLowerCase();
     if (await store.userByLogin(loginLower)) return send(res, 409, { error: "이미 있는 아이디예요." });
     if (await store.nickTaken(nickLower)) return send(res, 409, { error: "이미 쓰고 있는 닉네임이에요." });
     const u = {
       id: newId(), loginId, loginLower, passwordHash: hashPassword(password), nickname, nickLower,
-      major, year, // 비공개 — 본인에게만 보여줌
       createdAt: Date.now(),
     };
     try { await store.createUser(u); }

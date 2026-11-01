@@ -4,7 +4,7 @@
   const pad = (n) => String(n).padStart(2, "0");
   const today = new Date();
 
-  let me = null;          // 로그인한 나 {id, nickname, major, year}
+  let me = null;          // 로그인한 나 {id, nickname}
   let posts = [];
   let convs = [];
   let tab = "feed";
@@ -49,11 +49,6 @@
   // ---------- 초기 값 ----------
   $("f-date").value = today.getFullYear() + "-" + pad(today.getMonth() + 1) + "-" + pad(today.getDate());
   $("f-text").addEventListener("input", (e) => { $("count").textContent = e.target.value.length + "/300"; });
-  (function () {
-    const sel = $("r-year"), yy = today.getFullYear() % 100;
-    const o0 = el("option", null, "선택"); o0.value = ""; sel.appendChild(o0);
-    for (let y = yy; y >= 10; y--) { const o = el("option", null, pad(y) + "학번"); o.value = pad(y); sel.appendChild(o); }
-  })();
 
   // ---------- 로그인 / 가입 ----------
   function setAuthTab(which) {
@@ -73,7 +68,7 @@
     try {
       me = await api("POST", "/api/register", {
         loginId: $("r-id").value, password: $("r-pw").value,
-        nickname: $("r-nick").value, major: $("r-major").value, year: $("r-year").value,
+        nickname: $("r-nick").value,
       });
       $("register").reset();
       afterLogin();
@@ -106,7 +101,6 @@
     if (me) {
       const l = el("span");
       l.append("나는 "); l.appendChild(el("b", null, me.nickname));
-      l.append(" · " + me.major + " " + me.year + "학번 (나만 보임)");
       const out = el("button", "link", "로그아웃"); out.type = "button";
       out.addEventListener("click", logout);
       ml.append(l, out);

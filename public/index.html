@@ -41,16 +41,12 @@
 
     <form id="register" autocomplete="off">
       <div style="display:flex;flex-direction:column;gap:12px">
-        <p class="lead">다른 사람에게는 <b>닉네임만</b> 보여요. 학과와 학번은 나만 볼 수 있어요.</p>
+        <p class="lead">다른 사람에게는 <b>닉네임만</b> 보여요.</p>
         <div class="row2">
           <label for="r-id">아이디<input type="text" id="r-id" maxlength="20" placeholder="영문·숫자 4~20자" autocomplete="username" required></label>
           <label for="r-pw">비밀번호<input type="password" id="r-pw" minlength="8" placeholder="8자 이상" autocomplete="new-password" required></label>
         </div>
-        <div class="row3">
-          <label for="r-nick">닉네임<input type="text" id="r-nick" maxlength="12" placeholder="예: 청운관비둘기" required></label>
-          <label for="r-major">학과 <span class="lock">비공개</span><input type="text" id="r-major" maxlength="30" placeholder="예: 우주과학과" required></label>
-          <label for="r-year">학번 <span class="lock">비공개</span><select id="r-year" required></select></label>
-        </div>
+        <label for="r-nick">닉네임<input type="text" id="r-nick" maxlength="12" placeholder="예: 쿠옹쿠옹이" required></label>
         <label style="flex-direction:row;align-items:center;gap:8px;color:var(--ink)">
           <input type="checkbox" id="r-agree" style="width:auto" required> <span><a href="/privacy.html" target="_blank" rel="noopener">개인정보 처리방침</a>에 동의해요</span>
         </label>
